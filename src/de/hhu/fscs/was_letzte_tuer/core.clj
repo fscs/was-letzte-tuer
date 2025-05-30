@@ -7,6 +7,7 @@
    [selmer.parser :as t]
    [de.hhu.fscs.was-letzte-tuer.database :as db]
    [ring.adapter.jetty :as jetty]
+   [ring.util.response :as res]
    [java-time.api :as time]
    [ring.middleware.defaults :refer [api-defaults wrap-defaults]]))
 
@@ -21,7 +22,10 @@
       (> (time/as time-since :minutes) 20) (assoc current-status :status :maybe)
       :else current-status)))
 
-(defn site [] (t/render-file "template.html" (current-status)))
+(defn site [] (let [body (t/render-file "template.html" (current-status))]
+                (-> (res/response body) 
+                    (res/header "CacheControl" "max-age=60")
+                    (res/content-type "text/html"))))
 
 (def handler
   (routes
