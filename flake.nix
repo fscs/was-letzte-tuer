@@ -22,6 +22,12 @@
         lib = pkgs.lib;
       in
       {
+        devShells.default = pkgs.mkShell {
+          nativeBuildInputs = with pkgs; [
+            clojure
+          ];
+        };
+        
         packages = {
           default = clj-nix.lib.mkCljApp {
             inherit pkgs;
@@ -29,6 +35,9 @@
               {
                 projectSrc = lib.sources.sourceFilesBySuffices ./. [
                   ".clj"
+                  ".edn"
+                  ".webp"
+                  ".html"
                   "deps-lock.json"
                 ];
 
