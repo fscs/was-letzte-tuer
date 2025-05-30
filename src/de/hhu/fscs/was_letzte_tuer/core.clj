@@ -22,10 +22,10 @@
       (> (time/as time-since :minutes) 20) (assoc current-status :status :maybe)
       :else current-status)))
 
-(defn site [] (let [body (t/render-file "template.html" (current-status))]
-                (-> (res/response body) 
-                    (res/header "CacheControl" "max-age=60")
-                    (res/content-type "text/html"))))
+(defn site []
+  (-> (res/response (t/render-file "template.html" (current-status)))
+      (res/header "CacheControl" "max-age=60")
+      (res/content-type "text/html")))
 
 (def handler
   (routes
