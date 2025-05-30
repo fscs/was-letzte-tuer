@@ -9,15 +9,19 @@
                        (hike/connect cfg)))
 
 (defn status [db]
-  (let [last-transaction
-        (ffirst
-         (hike/q
-          '[:find (max ?tx) :where [_ :was-letzte-tuer/status ?s ?tx]] @db))]
-    (ffirst
+  (let [last-tx (ffirst
+                 (hike/q
+                  '[:find (max ?tx) :where [_ :was-letzte-tuer/status ?s ?tx]] @db))]
+    (first
      (hike/q
-      '[:find ?s :in $ ?tx :where [_ :was-letzte-tuer/status ?s ?tx]]
+      '[:find ?status ?time
+        :keys status time
+        :in $ ?tx
+        :where
+        [_ :was-letzte-tuer/status ?status ?tx]
+        [?tx :db/txInstant ?time]]
       @db
-      last-transaction))))
+      last-tx))))
 
 (defn update-status [db status]
   (assert (or (= :closed status) (= :open status)))

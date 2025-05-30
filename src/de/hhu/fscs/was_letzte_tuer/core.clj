@@ -7,17 +7,26 @@
    [selmer.parser :as t]
    [de.hhu.fscs.was-letzte-tuer.database :as db]
    [ring.adapter.jetty :as jetty]
+   [java-time.api :as time]
    [ring.middleware.defaults :refer [api-defaults wrap-defaults]]))
 
 (def app-state (atom {}))
 
-(defn site [] (let [status (or (db/status (:db @app-state)) :closed)]
-                (t/render-file "template.html" {:status status})))
+(defn current-status []
+  (let
+   [current-status (db/status (:db @app-state))
+    time-since (time/duration (:time current-status) (time/instant))]
+    (cond
+      (not current-status) {:status :maybe :time (time/local-date 1998)}
+      (> (time/as time-since :minutes) 20) (assoc current-status :status :maybe)
+      :else current-status)))
+
+(defn site [] (t/render-file "template.html" (current-status)))
 
 (def handler
   (routes
    (GET "/" [] (site))
-   (GET "/now" [] (name (or (db/status (:db @app-state)) :closed)))
+   (GET "/now" [] (name (:status (current-status))))
    (POST "/update" [status] (db/update-status (:db @app-state) (keyword status)))
    (route/resources "/static")
    (route/not-found "<h1>Page not found</h1>")))

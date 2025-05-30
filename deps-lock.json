@@ -23,6 +23,16 @@
       "hash": "sha256-o0Hid1Wzrsp13Vl3jagdiOF5TruKmPIXon/3MpN24Ks="
     },
     {
+      "mvn-path": "clojure/java-time/clojure.java-time/1.4.3/clojure.java-time-1.4.3.jar",
+      "mvn-repo": "https://repo.clojars.org/",
+      "hash": "sha256-j34UAxpTHBvHmFn03qviFfjBX4HWbgm997TZdJuDJac="
+    },
+    {
+      "mvn-path": "clojure/java-time/clojure.java-time/1.4.3/clojure.java-time-1.4.3.pom",
+      "mvn-repo": "https://repo.clojars.org/",
+      "hash": "sha256-LRbgkVDxVCTSNH1BwCpgCmYc0q+oQcpVBmIq1x6RJ7M="
+    },
+    {
       "mvn-path": "clout/clout/2.2.1/clout-2.2.1.jar",
       "mvn-repo": "https://repo.clojars.org/",
       "hash": "sha256-nzdGxROb7zUJmjOuuDMQCnWOJXKv1CM+ynAM3XLWhws="
@@ -818,6 +828,11 @@
       "hash": "sha256-4cCY6XzbWh+9Bu9zMtMDl5MlaQM4YRbZj0ZINxikzMU="
     },
     {
+      "mvn-path": "org/clojure/java.classpath/0.2.3/java.classpath-0.2.3.pom",
+      "mvn-repo": "https://repo1.maven.org/maven2/",
+      "hash": "sha256-d27PvZLMmNCM+ZeN5iclDYhti10RlCIh0dZ5siiA59A="
+    },
+    {
       "mvn-path": "org/clojure/java.classpath/1.1.0/java.classpath-1.1.0.jar",
       "mvn-repo": "https://repo1.maven.org/maven2/",
       "hash": "sha256-AeSm7dn/YeZFvcECTmNSKsD8Xoq1V3b+q39nIRk6j0E="
@@ -1451,6 +1466,11 @@
       "mvn-path": "ring/ring-core/1.11.0/ring-core-1.11.0.pom",
       "mvn-repo": "https://repo.clojars.org/",
       "hash": "sha256-4AnoLJdSIHaEyCMqqLHgDAGRG1VLpHTUwiSLGEr47kA="
+    },
+    {
+      "mvn-path": "ring/ring-core/1.13.0/ring-core-1.13.0.pom",
+      "mvn-repo": "https://repo.clojars.org/",
+      "hash": "sha256-QXfegvVoaQ2rDDWprFQFW4tYFjxxm933D/t+VAiJt98="
     },
     {
       "mvn-path": "ring/ring-core/1.14.1/ring-core-1.14.1.jar",
