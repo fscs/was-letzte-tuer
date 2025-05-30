@@ -12,16 +12,18 @@
   (let [last-tx (ffirst
                  (hike/q
                   '[:find (max ?tx) :where [_ :was-letzte-tuer/status ?s ?tx]] @db))]
-    (first
-     (hike/q
-      '[:find ?status ?time
-        :keys status time
-        :in $ ?tx
-        :where
-        [_ :was-letzte-tuer/status ?status ?tx]
-        [?tx :db/txInstant ?time]]
-      @db
-      last-tx))))
+    (if last-tx
+      (first
+       (hike/q
+        '[:find ?status ?time
+          :keys status time
+          :in $ ?tx
+          :where
+          [_ :was-letzte-tuer/status ?status ?tx]
+          [?tx :db/txInstant ?time]]
+        @db
+        last-tx))
+      nil)))
 
 (defn update-status [db status]
   (assert (or (= :closed status) (= :open status)))

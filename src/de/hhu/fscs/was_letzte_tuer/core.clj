@@ -15,11 +15,13 @@
 
 (defn current-status []
   (let
-   [current-status (db/status (:db @app-state))
-    time-since (time/duration (:time current-status) (time/instant))]
+   [current-status (db/status (:db @app-state))]
     (cond
       (not current-status) {:status :maybe :time (time/local-date 1998)}
-      (> (time/as time-since :minutes) 20) (assoc current-status :status :maybe)
+      (> (time/as 
+           (time/duration 
+             (:time current-status) 
+             (time/instant)) :minutes) 20) (assoc current-status :status :maybe)
       :else current-status)))
 
 (defn site []
