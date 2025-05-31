@@ -1,6 +1,4 @@
 {
-  description = "A clj-nix flake";
-
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
@@ -27,28 +25,36 @@
             clojure
           ];
         };
-        
-        packages = {
-          default = clj-nix.lib.mkCljApp {
-            inherit pkgs;
-            modules = [
-              {
-                projectSrc = lib.sources.sourceFilesBySuffices ./. [
-                  ".clj"
-                  ".edn"
-                  ".webp"
-                  ".html"
-                  "deps-lock.json"
-                ];
 
-                name = "de.hhu.fscs/was-letzte-tuer";
-                main-ns = "de.hhu.fscs.was-letzte-tuer.core";
-              }
-            ];
-          };
+        packages = {
+          default =
+            clj-nix.lib.mkCljApp {
+              inherit pkgs;
+              modules = [
+                {
+                  projectSrc = lib.sources.sourceFilesBySuffices ./. [
+                    ".clj"
+                    ".edn"
+                    ".webp"
+                    ".html"
+                    "deps-lock.json"
+                  ];
+
+                  name = "de.hhu.fscs/was-letzte-tuer";
+                  main-ns = "de.hhu.fscs.was-letzte-tuer.core";
+
+                }
+              ];
+            }
+            // {
+              meta.mainProgram = "was-letzte-tuer";
+            };
 
           deps-lock = clj-nix.packages.${system}.deps-lock;
         };
       }
-    );
+    )
+    // {
+      nixosModules.was-letzte-tuer = import ./module.nix { inherit (self) outputs; };
+    };
 }
