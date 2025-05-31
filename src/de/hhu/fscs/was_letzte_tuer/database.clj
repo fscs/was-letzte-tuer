@@ -28,3 +28,6 @@
 (defn update-status [db status]
   (assert (or (= :closed status) (= :open status)))
   (hike/transact db [{:was-letzte-tuer/status status}]))
+
+(defn gc [db before]
+  (hike/gc-storage db before))

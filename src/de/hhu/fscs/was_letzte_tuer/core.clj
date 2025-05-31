@@ -18,10 +18,10 @@
    [current-status (db/status (:db @app-state))]
     (cond
       (not current-status) {:status :maybe :time (time/local-date 1998)}
-      (> (time/as 
-           (time/duration 
-             (:time current-status) 
-             (time/instant)) :minutes) 20) (assoc current-status :status :maybe)
+      (> (time/as
+          (time/duration
+           (:time current-status)
+           (time/instant)) :minutes) 20) (assoc current-status :status :maybe)
       :else current-status)))
 
 (defn site []
@@ -34,6 +34,10 @@
    (GET "/" [] (site))
    (GET "/now" [] (name (:status (current-status))))
    (POST "/update" [status] (db/update-status (:db @app-state) (keyword status)))
+   (POST "/gc" [] 
+         (db/gc (:db @app-state) 
+                (time/java-date (time/- (time/instant) (time/duration 60 :days)))) 
+         "here are two pictures. one is your database, the other one is a garbage dump in the philippines")
    (route/resources "/static")
    (route/not-found "<h1>Page not found</h1>")))
 
