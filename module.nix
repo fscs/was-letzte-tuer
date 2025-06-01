@@ -56,7 +56,7 @@
       };
 
       systemd.services.was-letzte-tuer-gc = {
-        script = "${lib.getExe pkgs.curl} -XPOST http://localhost:${toString cfg.port}/gc";
+        script = "${lib.getExe pkgs.curl} -XPOST http://localhost:${toString cfg.port}/gc --no-progress-meter";
 
         serviceConfig.Type = "oneshot";
       };
