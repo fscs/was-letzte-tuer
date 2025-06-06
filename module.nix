@@ -11,7 +11,7 @@
       t = lib.types;
     in
     {
-      enable = lib.mkEnableOption "enable the fscs website server";
+      enable = lib.mkEnableOption "enable the was-letzte-tuer server";
 
       package = lib.mkOption {
         description = "server package";
@@ -20,7 +20,7 @@
       };
 
       port = lib.mkOption {
-        description = "environment file to load into the systemd service";
+        description = "port to run on";
         type = t.port;
         default = 8080;
       };

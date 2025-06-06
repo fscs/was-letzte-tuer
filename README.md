@@ -1,4 +1,4 @@
-# Was letzte TÜr?
+# Was letzte Tür?
 
 Ist sie auf? Ist sie zu?
 

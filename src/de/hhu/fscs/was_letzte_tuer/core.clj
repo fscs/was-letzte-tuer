@@ -13,19 +13,37 @@
 
 (def app-state (atom {}))
 
+(def date-formatter (java.time.format.DateTimeFormatter/ofPattern "dd.MM.yyyy 'um' HH:mm"))
+
+(defn zoned-date [date]
+  (time/zoned-date-time date (time/zone-id)))
+
+(defn normalize-date [{status :status date :time}]
+  {:status status :time (zoned-date date)})
+
+(defn accurate? [{date :time}]
+  (let [diff (time/duration date (zoned-date (time/local-date-time)))
+        diff-minutes (time/as diff :minutes)]
+    (< diff-minutes 10)))
+
+(def default-status {:status :maybe :time (zoned-date (time/local-date 1970))})
+
+(defn query-status []
+  (or
+   (db/status (:db @app-state))
+   default-status))
+
 (defn current-status []
-  (let
-   [current-status (db/status (:db @app-state))]
-    (cond
-      (not current-status) {:status :maybe :time (time/local-date 1998)}
-      (> (time/as
-          (time/duration
-           (:time current-status)
-           (time/instant)) :minutes) 20) (assoc current-status :status :maybe)
-      :else current-status)))
+  (let [status (normalize-date (query-status))]
+    (if (accurate? status)
+      status
+      (assoc status :status :maybe))))
+
+(defn format-status [{status :status date :time}]
+  {:status status :time (.format date-formatter date)})
 
 (defn site []
-  (-> (res/response (t/render-file "template.html" (current-status)))
+  (-> (res/response (t/render-file "template.html" (format-status (current-status))))
       (res/header "CacheControl" "max-age=60")
       (res/content-type "text/html")))
 
@@ -34,10 +52,10 @@
    (GET "/" [] (site))
    (GET "/now" [] (name (:status (current-status))))
    (POST "/update" [status] (db/update-status (:db @app-state) (keyword status)))
-   (POST "/gc" [] 
-         (db/gc (:db @app-state) 
-                (time/java-date (time/- (time/instant) (time/duration 60 :days)))) 
-         "here are two pictures. one is your database, the other one is a garbage dump in the philippines")
+   (POST "/gc" []
+     (db/gc (:db @app-state)
+            (time/java-date (time/- (time/instant) (time/duration 60 :days))))
+     "here are two pictures. one is your database, the other one is a garbage dump in the philippines")
    (route/resources "/static")
    (route/not-found "<h1>Page not found</h1>")))
 
