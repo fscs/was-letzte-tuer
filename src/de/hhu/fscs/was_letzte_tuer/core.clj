@@ -16,7 +16,7 @@
 (def date-formatter (java.time.format.DateTimeFormatter/ofPattern "dd.MM.yyyy 'um' HH:mm"))
 
 (defn zoned-date [date]
-  (time/zoned-date-time date (time/zone-id)))
+  (time/zoned-date-time date "Europe/Berlin"))
 
 (defn normalize-date [{status :status date :time}]
   {:status status :time (zoned-date date)})
