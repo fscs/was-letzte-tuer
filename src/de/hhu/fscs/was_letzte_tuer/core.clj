@@ -24,7 +24,7 @@
 (defn accurate? [{date :time}]
   (let [diff (time/duration date (zoned-date (time/local-date-time)))
         diff-minutes (time/as diff :minutes)]
-    (< diff-minutes 10)))
+    (< diff-minutes 15)))
 
 (def default-status {:status :maybe :time (zoned-date (time/local-date 1970))})
 
