@@ -13,7 +13,8 @@
 
 (def app-state (atom {}))
 
-(def date-formatter (java.time.format.DateTimeFormatter/ofPattern "dd.MM.yyyy 'um' HH:mm"))
+(def date-formatter (java.time.format.DateTimeFormatter/ofPattern "dd.MM.yyyy"))
+(def time-formatter (java.time.format.DateTimeFormatter/ofPattern "HH:mm"))
 
 (defn zoned-date [date]
   (time/zoned-date-time date "Europe/Berlin"))
@@ -40,7 +41,9 @@
       (assoc status :status :maybe))))
 
 (defn format-status [{status :status date :time}]
-  {:status status :time (.format date-formatter date)})
+  {:status status
+   :date (.format date-formatter date)
+   :time (.format time-formatter date)})
 
 (defn site []
   (-> (res/response (t/render-file "template.html" (format-status (current-status))))
