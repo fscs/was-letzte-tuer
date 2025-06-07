@@ -13,25 +13,21 @@ Ist sie auf? Ist sie zu?
 
 ### `/now`
 
-Get current door status
-
+- Get current door status
 - Method: `GET`
 - Returns: `open`, `closed` or `maybe` plain text
 
 ### `/update`
 
-Set current door status
-
+- Set current door status
 - Method: `POST`
 - Parameter
   - `status`: `open` or `closed`
-
-Example `/update?status=open`
+- Example `/update?status=open`
 
 ### `/gc`
 
-Run garbage collection on past door states
-
+- Run garbage collection on past door states
 - Method: `POST`
 - Returns: a stupid message
 
