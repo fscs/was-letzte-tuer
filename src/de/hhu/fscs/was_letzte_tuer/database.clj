@@ -2,6 +2,7 @@
   (:require [datahike.api :as hike]))
 
 (defn connect [path] (let [cfg {:store {:backend :file :path (.toString path)}
+                                :allow-unsafe-config true
                                 :initial-tx [{:db/ident :was-letzte-tuer/status
                                               :db/valueType :db.type/keyword
                                               :db/cardinality :db.cardinality/one}]}]

@@ -9,6 +9,7 @@
    [ring.adapter.jetty :as jetty]
    [ring.util.response :as res]
    [java-time.api :as time]
+   [ring.logger :as logger]
    [ring.middleware.defaults :refer [api-defaults wrap-defaults]]))
 
 (def app-state (atom {}))
@@ -62,7 +63,7 @@
    (route/resources "/static")
    (route/not-found "<h1>Page not found</h1>")))
 
-(def app (wrap-defaults handler api-defaults))
+(def app (logger/wrap-with-logger (wrap-defaults handler api-defaults)))
 
 (defn -main [& [port dbStore]]
   (let [port (Integer. (or port 8080))

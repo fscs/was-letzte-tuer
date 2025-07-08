@@ -7,4 +7,6 @@
         io.replikativ/datahike {:mvn/version "0.6.1596"}
         selmer/selmer {:mvn/version "1.12.62"}
         clojure.java-time/clojure.java-time {:mvn/version "1.4.3"}
+        ring-logger/ring-logger {:mvn/version "1.1.1"}
+        com.fzakaria/slf4j-timbre {:mvn/version "0.4.1"}
         babashka/fs {:mvn/version "0.5.25"}}}
